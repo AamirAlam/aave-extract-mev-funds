@@ -1,0 +1,35 @@
+{
+  "aaveV3Eth": {
+    "totalLiquidations": 437,
+    "totalAmountUSD": 15375042.098796932
+  },
+  "aaveV2Eth": {
+    "totalLiquidations": 28762,
+    "totalAmountUSD": 1219031246.2300286
+  },
+  "aaveV3Arb": {
+    "totalLiquidations": 3436,
+    "totalAmountUSD": 8846334.727372637
+  },
+  "maker": { "totalLiquidations": 9382, "totalAmountUSD": 771290703.518232 },
+  "compundV3Mainnet": {
+    "totalLiquidations": 268,
+    "totalAmountUSD": 69108901.43849055
+  },
+  "radiantArb": {
+    "totalLiquidations": 1226,
+    "totalAmountUSD": 1574607.4398550682
+  },
+  "creamFinanceArb": {
+    "totalLiquidations": 29,
+    "totalAmountUSD": 5514.197079200667
+  },
+  "creamFinanceEth": {
+    "totalLiquidations": 2550,
+    "totalAmountUSD": 123691665.51050782
+  },
+  "BENQIAvalanche": {
+    "totalLiquidations": 9339,
+    "totalAmountUSD": 77645150.02620961
+  }
+}

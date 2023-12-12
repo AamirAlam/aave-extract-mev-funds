@@ -1,0 +1,27 @@
+{
+  "aaveV3Eth": {
+    "totalLiquidations": 437,
+    "totalAmountUSD": 15375042.098796932
+  },
+  "aaveV2Eth": {
+    "totalLiquidations": 1929,
+    "totalAmountUSD": 53778800.74689559
+  },
+  "aaveV3Arb": {
+    "totalLiquidations": 2072,
+    "totalAmountUSD": 6905049.314757773
+  },
+  "maker": { "totalLiquidations": 131, "totalAmountUSD": 9028231.204991058 },
+  "compundV3Mainnet": {
+    "totalLiquidations": 227,
+    "totalAmountUSD": 66845214.80561783
+  },
+  "radiantArb": {
+    "totalLiquidations": 1063,
+    "totalAmountUSD": 1201065.0518832386
+  },
+  "creamFinanceArb": {
+    "totalLiquidations": 8,
+    "totalAmountUSD": 217.67780442861908
+  }
+}
