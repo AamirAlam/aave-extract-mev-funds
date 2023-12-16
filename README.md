@@ -2,6 +2,11 @@
 
 ## how to use 
 
+
+Install dependencies 
+
+`yarn`
+
 ### 1. Extract liquidations from the subgraph 
 `node services/extractLiquidations.js `
 
