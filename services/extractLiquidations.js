@@ -1,26 +1,11 @@
 const { default: BigNumber } = require("bignumber.js");
 const fs = require("fs");
 const { GraphQLClient, gql } = require("graphql-request");
+const { subgraphs } = require("./common");
 
 function BN(value) {
   return new BigNumber(value);
 }
-
-const apiKey = "dc1787b0d89892549f26838dc4a8946b";
-
-const subgraphs = {
-  aaveV3Eth: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/JCNWRypm7FYwV8fx5HhzZPSFaMxgkPuw4TnR3Gpi81zk`,
-  aaveV2Eth: `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/84CvqQHYhydZzr2KSth8s1AFYpBRzUbVJXq6PWuZm9U9`,
-  aaveV3Arb: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/4xyasjQeREe7PxnF6wVdobZvCw5mhoHZq3T7guRpuNPf`,
-  maker: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/8sE6rTNkPhzZXZC6c8UQy2ghFTu5PPdGauwUBm4t7HZ1`,
-  compundV3Mainnet: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/AwoxEZbiWLvv6e3QdvdMZw4WDURdGbvPfHmZRc8Dpfz9`,
-  radiantArb: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/8PUSqUn6dSkoxJb3LDLmdKHzbHFn1cz7XjbSob5uiR4v`,
-  creamFinanceArb: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/GzHkVNf7BBqUjV8Sy6U6xUaWdGheFMdin1cB6sNvfdzs`,
-  creamFinanceEth: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/43NeT7UTACLUkohKBaG7auvkhsj4Kwux9kNTJr6sFdNe`,
-  BENQIAvalanche: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/8ZjJGsaKea7WwLJPJNdHXPGsvXDe3iq2231aRjgBPisi`,
-  InverseFinanceEthereum: `https://gateway-arbitrum.network.thegraph.com/api/${apiKey}/subgraphs/id/EXuutY6qkZbXjYeJZdiDBf2imJswTNdfm8YZCqhAthfW`,
-};
-
 async function querySubgraph(subgraphUrl, query) {
   try {
     const client = new GraphQLClient(subgraphUrl, { headers: {} });
@@ -45,7 +30,7 @@ async function extractLiquidations(graphUrl, startTime, endTime, lastDocId) {
   if (!lastDocId) {
     query = gql`
       query {
-        liquidates(first: 1000) {
+        liquidates(first: 1000  where: { timestamp_gt: "${startTime}",  }) {
           id
           amount
           amountUSD
@@ -63,7 +48,7 @@ async function extractLiquidations(graphUrl, startTime, endTime, lastDocId) {
     query {
       liquidates(
         first: 1000
-        where: {   id_gt: "${lastDocId}" }
+        where: { id_gt: "${lastDocId}",  timestamp_gt: "${startTime}"}
       ) {
         id
         amount
@@ -141,8 +126,8 @@ async function extract(graphUrl, startTime, endTime) {
 
 async function main() {
   // fetch liquidations data
-  const startTime = 1670806682; // 12 dec 2022
-  const endTime = 1702362482; // 12 dec 2023
+  const startTime = 1639454250; // 14 dec 2022
+  const endTime = 1702546050; // 12 dec 2023
 
   const subgraphNames = Object.keys(subgraphs);
 
@@ -154,7 +139,7 @@ async function main() {
       endTime
     );
     fs.writeFile(
-      `liquidationData/${subgraphNames[start]}.json`,
+      `liquidationLast2Years/${subgraphNames[start]}.json`,
       JSON.stringify(results),
       "utf8",
       (err) => {
@@ -176,7 +161,7 @@ async function main() {
   while (start < subgraphNames.length) {
     try {
       const data = fs.readFileSync(
-        `liquidationData/${subgraphNames[start]}.json`
+        `liquidationLast2Years/${subgraphNames[start]}.json`
       );
       const dataJson = JSON.parse(data);
       console.log("data ", dataJson?.length);
@@ -202,7 +187,7 @@ async function main() {
   console.log(statsObject);
 
   fs.writeFile(
-    `TotalStats.json`,
+    `liquidationLast2Years/TotalStats.json`,
     JSON.stringify(statsObject),
     "utf8",
     (err) => {
