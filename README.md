@@ -5,7 +5,7 @@
 
 Install dependencies 
 
-`yarn`
+run `yarn`
 
 ### 1. Extract liquidations from the subgraph 
 `node services/extractLiquidations.js `
